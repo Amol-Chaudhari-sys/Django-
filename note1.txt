@@ -1,0 +1,370 @@
+jinja 
+1. 
+    start project :
+        Django-admin startproject projectname
+
+    create app in Django :
+        python manage.py startapp appname 
+
+    run the project :
+        python manage.py runserver 0.0.0.0: portno 
+        ex
+        python manage.py runserver 0.0.0.0 :5000
+
+    pages routng :
+    return redirect('/recepies/')
+     return render(request, 'login_page.html')
+
+2. structure create first app 
+    manage.py :
+        bridge to communicate with django 
+    asgi.py:
+        asynchronoug gateway 
+    __init__.py :
+        to read the file
+    wsgi.py :
+        web server gateway interface 
+    seatting.py 
+
+
+4. Djang templete tags 
+    Do not repeatyour self (DRY )
+    Django tempate Engine 
+        base.html:
+        {% block start %}
+
+        {% endblock %}
+
+        index.html:
+        {% extends "base.html" %}
+        {% block start %}
+
+        {% endblock %}
+    sorcely extension : python code refactor and enhance 
+
+5. models and migrations :
+    sqllite viewer 
+    create class to define  schemas in 
+    appname/ models.py 
+     create python manage.py makeigrations 
+        1. python manage.py makemigrations 
+        2. python manage.py migrate
+    impq 
+    what will happend if any migration file is deleted from migrations ?
+    migrations are also store the entery of this files  in Django database it identify that migration file is delated 
+    exampe database 
+        student = student (name= "amol", age = 20 , email= "amol@gmail.com", )
+
+
+6. Django shell 
+    python manage.py shell 
+    ex :
+        student = student (name= "amol", age = 20 , email= "amol@gmail.com", )
+        student.save 
+        student = student.objects.create(name= "amol", age = 20 , email= "amol@gmail.com", )  # no need of save menually 
+
+        object is model manager 
+
+    utils.py :
+        functions works using Django data ans features 
+        ud=se resources from oyher files 
+
+7. Advance CRUD operations 
+     create object ex :
+        car = Car(car_name = "honda city ", speed = 100)
+        car.save()
+
+        car = Car.objects .create (car_name = "bmw", speed = 350)
+
+        car_dict = {'car_name':"m4",'speed': 300}
+        Car.objects.create(**car_dict)
+    
+    Read Operations 
+            def __str__(self)->str:
+                return self.car_name  # dender mathod 
+        cars = Car.objects.all()
+         Cars[0].car_name
+         Car.objects.get (id =1)  # through error when id does not exist 
+         Car.objects.filter  (id =1)  # return empty list when data does not exist 
+
+    Update operatios :
+        car = Car.objects.get (id = 4)
+        car.car_name= "Audi"
+        car.speed = 200
+        car.save() car 
+
+    Delete 
+        Car.objects.get(id =4).delete()
+        Car.objects.all().delete()
+
+8. ecepy project 1 get data from frontend 
+         name = "variable in database"
+       csrf token 
+        enctype="multipart/form-data  # For file data 
+
+
+9. 
+ urls.py 
+        from django.conf.urls.static import static 
+        from django.conf import settigs 
+        from django.contrib.staticfiles.urls import staticfiles_urlpatterns 
+
+        if settings.DEBUG:
+            urlpatterns += static (settings.MEDIA_URL , document_root = settings .MEDIA_ROOT )
+
+     urlpatterns += staticfiles_urlpatterns()
+setting.py 
+        import os 
+
+        STATIC_URL = "/static/"
+        STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+        STATICFILE_DIR = {
+            os.path.join(BASE_DIR, "public/static")
+        }
+
+        MEDIA_ROOT = os.path.join(BASE_DIR,"public/static")
+        MEDIA_URL = '/media/'
+
+
+        DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+10.     
+        update :
+            query_set = Recepies.objects.get(id = id )
+        search box :
+        form without method 
+        __icontain 
+            if request.GET.get("Search"):
+            recepie_list= recepie_list.filter(recepie_name__icontains = request.GET.get("Search"))
+
+
+11. Authentication :
+    registration 
+    models.py 
+    from django.contrib.auth.models import user
+
+    user = models.ForeignKey(User , on_delete = models.SET_NULL, null=True , blank=True )
+
+    views.py 
+
+
+
+12. advance authenticatin 
+    login 
+
+    from django.contrib.auth import authenticate , login ,logout 
+    from django.contrib.auth.decorator import login_required 
+    from django.contrib import messages
+
+model.py 
+    messages.error(request , "invalid Password ")
+    messages.info(request, "username  Already exist !")
+
+html
+    {%if messages %}
+      {{ message.tags }}
+        {% for message in messages %}
+        <h3>{{ message }}</h3>
+        {% endfor %}
+    {% endif %}
+
+
+13. 
+    Recepies.objects.all().order_by("view_count")
+    Recepies.objects.all().order_by("-view_count")
+    Recepies.objects.filter(view_count = 20)
+    Recepies.objects.filter(view_count__gte = 20)
+    Recepies.objects.filter(view_count__lte = 20)
+
+14 
+
+    localhost 8000/admin/
+     python manage.py createsuperuser 
+
+     admin.py 
+     from models import * 
+     admin.site.register (recepies)
+
+
+15 Advancet querys 
+    orm
+
+    queryset = Student.objects.filter (department__department = "computer")  __department   # for access foregin key 
+    queryset = Student.objects.filter (student_name__startswith = 'a')
+    queryset = Student.objects.filter (student_name__endswith = 'a')
+
+    Student.student_id      # coustum id 
+    Student.pk          # primary key 
+    Student.id          # inbuld id pk 
+
+    __startswith
+    __endswith    
+    __icontain
+    __in 
+
+    d= ['computer', 'entc"]
+    department__department__in = d
+
+    queryset.values()
+    queryset.reverse ()
+    objects.value_list("id" , 'student_name')
+    objects.get (id = "STU-0001")     # rise error if data doesnot exist 
+ 
+
+ 16 aggregation and anotation
+
+    from Django.db.models import *
+    from django.db.models import *
+
+    ORM 
+    filter functions :
+        works on the row  return full row  
+    aggrigate functions :
+        works on the columns  return full columns 
+        eg : sum all marks of all student 
+            averaeg 
+            sum 
+            minimum 
+
+            queryset = Student.objects.aggregate( Avg('student_age'))
+       
+
+    anotate functions (.annotate)
+         two operations at  two coulmns at a time 
+
+        student = Student.objects.values("student_age").annotate(Count('student_age'))
+            {'department__department': 'AIDS', 'department__count': 9}
+
+        department = Student.objects.values("department__department", "student_name").annotate(Count('department'), Count('student_name'))
+            {'department__department': 'AIDS', 'student_name': 'Amber Thomas', 'department__count': 1, 'student_name__count': 1}
+
+        department = Student.objects.values("department__department", "student_name").annotate(Count('department'), Count('student_name')).values_list()
+            (1, 1, 1, 'Amol', 'amol@gmail.com', 20, 'pune', 1, 1)
+
+17. report card models 
+    class Meta: 
+        unique_together = ['student', 'subject']
+
+    admin.py 
+        class SubjectListAdmin (admin.ModelAdmin):
+            list_display = ( 'student' , 'subject' , "marks") 
+
+        admin.site.register(SubjectMarks , SubjectListAdmin)
+    
+
+
+18. 
+        from django.core.paginator import Paginator 
+            paginator = Paginator(queryset , 20 )
+            page_no = request.GET.get("page", 1)
+            page_obj = paginator.get_page(page_no)
+
+            in ui html
+                href="?page={{queryset.previous_page_number}}"
+                 {{queryset.number}} of {{queryset.paginator.num_pages}}
+                 {{queryset.next_page_number}}
+
+        search user 
+        from django.db.models import Q
+        queryset= Student.objects.filter( Q (student_name__icontains = search )|
+                                         Q(department__department__icontains = search)|
+                                         Q( student_age__icontains = search) |
+                                         Q(studentid__student_id__icontains = search ) |
+                                         Q(student_email__icontains = search ) )
+        
+
+19.
+        url 
+        <a href="{% url 'see-marks' student.studentid %} ">{{student.studentid}}</a>
+        name = see-marks 
+
+
+20 . student rank logic 
+        admin.py 
+            class ReportCardAdmin(admin.ModelAdmin):
+                list_display=("student" , 'student_rank' ,'total_marks' ,'date_of_reportcard_generated')
+                ordering =['student_rank']
+
+                def total_marks(self , obj):
+                    subjectmarks = SubjectMarks.objects.filter (student = obj.student)
+                    marks = (subjectmarks.aggregate(marks = Sum('marks')))
+                    return marks['marks']
+
+
+
+
+
+
+21 - 22 coustom user model 
+        models.py 
+        from django.contrib.auth.models import AbstractUser
+        from .manager import UserManager
+        class CustomUser(AbstractUser):
+
+            USERNAME_FIELD = 'phone_number'
+            REQUIRED_FIELDS = []
+            objects = UserManager()
+        
+        manager.py 
+        from django.contrib.auth.models import BaseUserManager
+
+        class UserManager (Baseusermanager):
+            def create_user (self , phone_number , password , **extre_fields ):
+
+                return User 
+
+            def create_superuser():
+                extra_fields.setdefault("is_superuser" = True )
+                extra_fields.setdefault("is_staff" = True )
+                extra_fields.setdefault("is_active" = True )
+                return self.create_user (          )
+
+
+        settings.py 
+        AUTH_USER_MODEL = 'accounts.CustomUser'
+
+23 models 
+
+    class StudentsManager(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset().filter(is_deleted = False )
+
+    class student():
+        is_deleted= models.BooleanField(default = False)
+
+        objects = StudentsManager()
+        admin_objects =models.Manager ()
+
+
+24 send mail to client 
+        utils.py 
+            def send_email_to_client():
+            subject= "This mail from Django Server "
+            message ="This message from server mail  Django "
+            from_email =settings.EMAIL_HOST_USER
+            recipients_list = ["amolchaudha@gmail.com"] 
+            send_mail (subject , message, from_email , recipients_list )
+
+        settings.py 
+            EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+            EMAIL_HOST = 'smtop.gmail.com'
+            EMAIL_USE_TLS = True 
+            EMAIL_PORT = 587
+            EMAIL_HOST_USER = ""
+            EMAIL_HOST_PASSWORD = ""
+        
+
+
+25 Email with attachments 
+    utils.py 
+        from django.core.mail import send_mail , EmailMessage
+        
+        def send_email_with_attachment(subject , message ,  recipient_list , file_path  ):
+            mail = EmailMessage(subject= subject ,body= message , from_email=settings.EMAIL_HOST_USER, to=recipient_list)
+            mail.attach_file(file_path)
+            mail.send()
+
+    
+
+

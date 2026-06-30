@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block start %}
+
+<div class="container">
+  <h1>Register</h1>
+  <hr />
+  <form class="card" method="POST">
+    {% csrf_token %} {%if messages %} {{ message.tags }}
+
+    <div class="alert-container">
+      <div class="alert-alert-primary">
+        {% for message in messages %}
+        <h3>{{ message }}</h3>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% endif %}
+
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">First Name</label>
+      <br />
+      <input type="text" class="form-control" required name="first_name" />
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Last Name</label>
+      <br />
+      <input type="text" class="form-control" required name="last_name" />
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">User Name</label>
+      <br />
+      <input type="text" class="form-control" required name="username" />
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password </label>
+      <br />
+      <input type="Password" class="form-control" required name="password" />
+    </div>
+    <p>Already have Account <a href="/login_page/"> Login here </a></p>
+    <button type="submit" class="btn form-control">Submit</button>
+  </form>
+</div>
+{% endblock %}

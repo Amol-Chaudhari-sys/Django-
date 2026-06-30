@@ -1,0 +1,60 @@
+ {% extends "base.html" %}
+{% block start %}
+<div class = 'container'>
+  <h2>send mail to client </h2>
+  <a href="{% url "send_email" %}"><button > Send mail </button></a>
+  
+</div>
+
+<div
+      style="
+        
+        magrin: 30px;
+        border: 3px solid black;
+        padding: 10px;
+        color: red;
+        background-color: black;
+      "
+    >
+      <h1>This is Django Html page rander</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus,
+        corrupti consequatur laborum nisi animi a autem molestiae aperiam earum
+        similique repellendus rem, ipsa libero fugiat maxime odit dolorem
+        laudantium est!
+      </p>
+      <hr />
+      <p>{% lorem 1 b random %}</p>
+      {{peoples}}
+      <table class="container" border="2" >
+        <tr>
+            <th>sr.No</th>    
+            <th>Name</th>
+            <th>age</th>
+            <th>Can Vote </th>
+        </tr>
+        {% for people in peoples%}
+        <tr>
+            <td>{{forloop.counter}}
+                {{text|truncatechars:10}}
+            </td>
+            <td>{{people.name}}</td>
+            <td>{{people.Age}}</td>
+            <td>{% if people.Age >= 18 %}
+                Vote 
+                {% else %}
+                child 
+                {% endif %}
+            </td>
+
+        </tr>
+        
+        {% endfor %}
+      </table>
+
+      <br><br>
+      <a href="/about/">About  |||</a>
+      <a href="/contact/"> Contact ||</a>
+    </div>
+
+    {% endblock %}

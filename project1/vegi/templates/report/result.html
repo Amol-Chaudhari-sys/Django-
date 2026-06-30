@@ -1,0 +1,23 @@
+ {% extends "base.html" %}
+ {% block start %}
+ <div class="container"> <h1>Result </h1></div>
+ 
+ <h2>Name : {{queryset.first.student.student_name }}</h2>
+ <h3>Rank :  {{queryset.first.student.Studerntreportcard.first.student_rank}}</h3>
+ <h3>Total Marks : {{total_marks.total_marks}}</h3>
+ <h3>Date of report card generation : {{queryset.first.student.Studerntreportcard.first.date_of_reportcard_generated}}</h3>
+
+ 
+ <table class= "table-container" border = 2 >
+    {% for subject in queryset %}
+    <tr>
+        <td> {{ forloop.counter }}</td>
+        <td><b>
+            {{subject.subject}}</b>
+        </td>
+        <td>{{subject.marks}}</td>
+    </tr>
+    {% endfor %}
+ </table>
+
+ {% endblock  %}
