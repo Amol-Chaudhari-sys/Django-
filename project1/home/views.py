@@ -2,9 +2,11 @@ from django.shortcuts import render , redirect
 from django.http import HttpResponse
 from .utils import send_email_to_client , send_email_with_attachment
 from django.conf import settings
+from .models import Car
 
 # Create your views here.
 def home(request ):
+    Car.objects.create( car_name = "Nexon" )
 
     peoples =[{"name":"Amol", "Age":20,},
      {"name":"Vikas", "Age":19,},
@@ -32,4 +34,5 @@ def send_email(request):
     file_path =f"{settings.BASE_DIR}\summer.xlsx"
     send_email_with_attachment(subject , message ,  recipient_list , file_path )
     return redirect('/')
+
 

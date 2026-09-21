@@ -1,4 +1,9 @@
 jinja 
+steps: create django project 
+2 create django app
+3 add app in settings (.apps.Apiconfig) installed apps 
+
+
 1. 
     start project :
         Django-admin startproject projectname
@@ -8,7 +13,7 @@ jinja
 
     run the project :
         python manage.py runserver 0.0.0.0: portno 
-        ex
+        eg
         python manage.py runserver 0.0.0.0 :5000
 
     pages routng :
@@ -24,7 +29,7 @@ jinja
         to read the file
     wsgi.py :
         web server gateway interface 
-    seatting.py 
+    settings.py 
 
 
 4. Djang templete tags 
@@ -54,19 +59,19 @@ jinja
     migrations are also store the entery of this files  in Django database it identify that migration file is delated 
     exampe database 
         student = student (name= "amol", age = 20 , email= "amol@gmail.com", )
-
+	student.save()
 
 6. Django shell 
     python manage.py shell 
     ex :
         student = student (name= "amol", age = 20 , email= "amol@gmail.com", )
-        student.save 
+        student.save ()
         student = student.objects.create(name= "amol", age = 20 , email= "amol@gmail.com", )  # no need of save menually 
 
         object is model manager 
 
     utils.py :
-        functions works using Django data ans features 
+        functions works using Django data and features 
         ud=se resources from oyher files 
 
 7. Advance CRUD operations 
@@ -97,13 +102,14 @@ jinja
         Car.objects.get(id =4).delete()
         Car.objects.all().delete()
 
-8. ecepy project 1 get data from frontend 
+8. Recepy project 1 get data from frontend 
          name = "variable in database"
        csrf token 
-        enctype="multipart/form-data  # For file data 
+	image file import 
+        enctype="multipart/form-data         # For file data 
 
 
-9. 
+9. use image in frontend to backend via.
  urls.py 
         from django.conf.urls.static import static 
         from django.conf import settigs 
@@ -112,7 +118,7 @@ jinja
         if settings.DEBUG:
             urlpatterns += static (settings.MEDIA_URL , document_root = settings .MEDIA_ROOT )
 
-     urlpatterns += staticfiles_urlpatterns()
+     	urlpatterns += staticfiles_urlpatterns()
 setting.py 
         import os 
 
@@ -129,7 +135,7 @@ setting.py
 
         DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-10.     
+10.      
         update :
             query_set = Recepies.objects.get(id = id )
         search box :
@@ -196,7 +202,7 @@ html
 
     Student.student_id      # coustum id 
     Student.pk          # primary key 
-    Student.id          # inbuld id pk 
+    Student.id          # inbuild id pk 
 
     __startswith
     __endswith    
@@ -365,6 +371,27 @@ html
             mail.attach_file(file_path)
             mail.send()
 
-    
 
+26 Signals 
 
+    pre save 
+    post save 
+    pre delete 
+    pst delete 
+
+    models.py 
+
+        from django.db.models.signals import post_save
+        from django.dispatch import receiver
+        @receiver(post_save, sender=Car)
+        def call_car_api(sender, instance,  **kwargs):
+            print ("car object Created" )
+            print (sender , instance , kwargs)
+
+    27  
+    food ordering 
+    app - products 
+    uid
+
+        class Meta:
+            abstract =True  # to not create the model of class  actually 
